@@ -26,11 +26,17 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white</string>
+     <string notr="true">background-color: white; border: 1px solid black;</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -60,7 +66,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white</string>
+     <string notr="true">background-color: white; border: 1px solid black;</string>
     </property>
     <property name="text">
      <string>Add</string>
@@ -93,7 +99,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white</string>
+     <string notr="true">background-color: white; border: 1px solid black;</string>
     </property>
     <property name="text">
      <string>Remove</string>
@@ -108,11 +114,14 @@
       <height>571</height>
      </rect>
     </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
     <property name="autoFillBackground">
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
+     <string notr="true">background-color: white; border: 1px solid black;</string>
     </property>
    </widget>
   </widget>

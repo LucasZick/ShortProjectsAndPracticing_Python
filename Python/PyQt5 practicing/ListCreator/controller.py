@@ -2,13 +2,12 @@ from PyQt5 import uic,QtWidgets
 
 def list_data():
     data = Window.lineEdit.text()
-    Window.listWidget.addItem(data)
-    Window.lineEdit.setText('')
+    if data:
+        Window.listWidget.addItem(data)
+        Window.lineEdit.setText('')
 
 def delete_data():
-    data = Window.lineEdit.text()
     Window.listWidget.clear()
-    Window.lineEdit.setText('')
 
 app=QtWidgets.QApplication([])
 Window = uic.loadUi('Window.ui')
