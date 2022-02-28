@@ -10,7 +10,7 @@ def delete_data():
     Window.listWidget.clear()
 
 app=QtWidgets.QApplication([])
-Window = uic.loadUi('Window.ui')
+Window = uic.loadUi('ListCreator/Window.ui')
 Window.pushButton.clicked.connect(list_data)
 Window.pushButton_2.clicked.connect(delete_data)
 

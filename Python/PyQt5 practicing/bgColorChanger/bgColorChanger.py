@@ -17,7 +17,7 @@ def main_function():
         print('Nada selecionado')
 
 app=QtWidgets.QApplication([])
-form = uic.loadUi('Window.ui')
+form = uic.loadUi('bgColorChanger/Window.ui')
 form.pushButton.clicked.connect(main_function)
 
 form.show()
