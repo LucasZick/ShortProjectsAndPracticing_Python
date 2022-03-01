@@ -35,7 +35,7 @@
    <string notr="true">background-color:lightgreen;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="lineEdit_login">
+   <widget class="QLineEdit" name="lineEdit_nome">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -185,7 +185,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_senhaCadastro_2">
+   <widget class="QLineEdit" name="lineEdit_senhaCadastro">
     <property name="geometry">
      <rect>
       <x>70</x>
