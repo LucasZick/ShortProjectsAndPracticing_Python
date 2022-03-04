@@ -1,4 +1,6 @@
+from os import remove
 from PyQt5 import uic,QtWidgets
+import time
 import sqlite3
 
 def chamaTelaLogin():
@@ -13,10 +15,15 @@ def chamaTelaPrincipal():
     telaLogin.close()
     if telaRegistro:
         telaRegistro.close()
+    atualizarTabela()
 
 def chamaTelaInserirPessoa():
     telaPrincipal.close()
     telaInserirPessoa.show()
+
+def chamaTelaRemoverPessoa():
+    telaPrincipal.close()
+    telaRemoverPessoa.show()
 
 def login():
     login_usuario = telaLogin.lineEdit_login.text()
@@ -30,6 +37,8 @@ def login():
             banco.close()
             if senha_usuario == senha_bd[0][0]:
                 chamaTelaPrincipal()
+            else:
+                telaLogin.label_aviso.setText('A senha está incorreta.')
         except:
             telaLogin.label_aviso.setText('Registro incompatível.')
     else:
@@ -100,11 +109,12 @@ def inserirAluno():
                 banco = sqlite3.connect('banco_alunos.db')
                 cursor = banco.cursor()
                 cursor.execute("CREATE TABLE IF NOT EXISTS alunos (nome text, nome_do_pai text, nome_da_mae text, telefone text, endereco text, escola text, mensalidade int, turno text, van text)")
-                cursor.execute(f"INSERT INTO alunos VALUES ('{nome}','{nomePai}','{nomeMae}','{telefone}','{endereco}','{escola}',{mensalidade},'{turno}','{van}')")
+                cursor.execute(f"INSERT INTO alunos(nome,nome_do_pai,nome_da_mae,telefone,endereco,escola,mensalidade,turno,van) VALUES ('{nome}','{nomePai}','{nomeMae}','{telefone}','{endereco}','{escola}',{mensalidade},'{turno}','{van}')")
 
                 banco.commit()
                 banco.close
 
+                atualizarTabela()
                 sairInsercao()
 
             except Exception as erro:
@@ -115,6 +125,33 @@ def inserirAluno():
     except:
             telaInserirPessoa.label_aviso.setText(f'A mensalidade necessita estar em números.\n Ex: (100).')
 
+def verificarAluno():
+    try:
+        codigoAluno = telaRemoverPessoa.lineEdit_codigo.text()
+        banco = sqlite3.connect('banco_alunos.db')
+        cursor = banco.cursor()
+        cursor.execute(f"SELECT nome FROM alunos WHERE codigo = {codigoAluno}")
+        nome = cursor.fetchall()
+        banco.close()
+        if nome != '':
+            telaRemoverPessoa.label_aviso.setText(f'Realmente deseja remover {nome[0][0]}?')
+            telaRemoverPessoa.pushButton_remover.setEnabled(True)
+    except:
+        telaRemoverPessoa.label_aviso.setText('Erro ao buscar o aluno.\nVerifique se este código existe.')
+
+def removerAluno():
+    try:
+        codigoAluno = telaRemoverPessoa.lineEdit_codigo.text()
+        banco = sqlite3.connect('banco_alunos.db')
+        cursor = banco.cursor()
+        cursor.execute(f'DELETE FROM alunos WHERE codigo = {codigoAluno}')
+        banco.commit()
+        banco.close()
+        atualizarTabela()
+        sairRemocao()
+    except:
+        telaRemoverPessoa.label_aviso.setText('Erro ao remover aluno.')
+
 def sairRegistro():
     telaRegistro.close()
     telaLogin.show()
@@ -122,6 +159,7 @@ def sairRegistro():
     telaRegistro.lineEdit_loginCadastro.setText('')
     telaRegistro.lineEdit_senhaCadastro.setText('')
     telaRegistro.lineEdit_senhaConfirma.setText('')
+    telaRegistro.label_aviso.setText('')
 
 
 def sairInsercao():
@@ -134,19 +172,47 @@ def sairInsercao():
     telaInserirPessoa.lineEdit_endereco.setText('')
     telaInserirPessoa.lineEdit_escola.setText('')
     telaInserirPessoa.lineEdit_mensalidade.setText('')
+    telaInserirPessoa.label_aviso.setText('')
     telaInserirPessoa.radioButton_manha.setChecked(False)
     telaInserirPessoa.radioButton_tarde.setChecked(False)
     telaInserirPessoa.radioButton_noite.setChecked(False)
     telaInserirPessoa.radioButton_van1.setChecked(False)
     telaInserirPessoa.radioButton_van2.setChecked(False)
 
+def sairRemocao():
+    telaRemoverPessoa.close()
+    telaPrincipal.show()
+    telaRemoverPessoa.lineEdit_codigo.setText('')
+    telaRemoverPessoa.label_aviso.setText('')
+    telaRemoverPessoa.pushButton_remover.setEnabled(False)
+
+def atualizarTabela():
+    try:
+        banco = sqlite3.connect('banco_alunos.db')
+        cursor = banco.cursor()
+        cursor.execute("SELECT * FROM alunos")
+        dadosTabela = cursor.fetchall()
+        telaPrincipal.tableWidget_1.setRowCount(len(dadosTabela))
+        telaPrincipal.tableWidget_1.setColumnCount(10)
+
+        for i in range(0, len(dadosTabela)):
+            for j in range(0,10):
+                telaPrincipal.tableWidget_1.setItem(i,j,QtWidgets.QTableWidgetItem(str(dadosTabela[i][j])))
+        
+        banco.close()
+
+    except:
+        return
+
+
+app = QtWidgets.QApplication([])
 
 #ATRIBUIÇÃO DE INTERFACES
-app = QtWidgets.QApplication([])
 telaLogin = uic.loadUi('LoginWindow.ui')
 telaRegistro = uic.loadUi('RegisterWindow.ui')
 telaPrincipal = uic.loadUi('MainWindow.ui')
 telaInserirPessoa = uic.loadUi('InsertPerson.ui')
+telaRemoverPessoa = uic.loadUi('RemovePerson.ui')
 
 #TELA DE LOGIN
 telaLogin.pushButton_login.clicked.connect(login)
@@ -159,11 +225,16 @@ telaRegistro.pushButton_cancelar.clicked.connect(sairRegistro)
 #TELA DO SISTEMA
 telaPrincipal.pushButton_logout.clicked.connect(logout)
 telaPrincipal.pushButton_inserir.clicked.connect(chamaTelaInserirPessoa)
+telaPrincipal.pushButton_remover.clicked.connect(chamaTelaRemoverPessoa)
 
 #TELA DE INSERÇÃO DE ALUNO
 telaInserirPessoa.pushButton_cancelar.clicked.connect(sairInsercao)
 telaInserirPessoa.pushButton_cadastrar.clicked.connect(inserirAluno)
 
+#TELA DE REMOÇÃO DE ALUNO
+telaRemoverPessoa.pushButton_cancelar.clicked.connect(sairRemocao)
+telaRemoverPessoa.pushButton_verificar.clicked.connect(verificarAluno)
+telaRemoverPessoa.pushButton_remover.clicked.connect(removerAluno)
 
 telaLogin.show()
 app.exec()

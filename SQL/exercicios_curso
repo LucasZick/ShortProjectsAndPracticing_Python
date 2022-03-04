@@ -1,0 +1,137 @@
+/*
+BETWEEN
+*/
+SELECT *
+FROM HumanResources.Employee
+WHERE HireDate between '2009/1/1' and '2010/12/31'
+ORDER BY HireDate;
+
+/*
+IN
+*/
+
+SELECT *
+FROM Production.Product
+WHERE Color IN ('Blue','Red')
+ORDER BY Color;
+
+SELECT *
+FROM Person.Person
+WHERE BusinessEntityID IN (2,7,13); 
+
+/*
+LIKE
+*/
+
+SELECT *
+FROM Person.Person
+WHERE FirstName like '%uca_';
+
+/*
+EXERCÍCIO INICIAIS
+*/
+
+SELECT COUNT(*)
+FROM Production.Product
+WHERE ListPrice > 1500;
+
+SELECT COUNT(*)
+FROM Person.Person
+WHERE LastName LIKE 'P%';
+
+SELECT COUNT(DISTINCT city)
+FROM Person.Address;
+
+SELECT DISTINCT city
+FROM Person.Address;
+
+SELECT COUNT(*)
+FROM Production.Product
+WHERE Color = 'Red' AND ListPrice BETWEEN 500 AND 1500;
+
+SELECT COUNT(*)
+FROM Production.Product
+WHERE Name LIKE '%road%';
+
+/*
+SUM
+*/
+
+SELECT TOP 10 SUM(LINETOTAL) AS 'SOMA'
+FROM Sales.SalesOrderDetail;
+
+/*
+MAX E MIN
+*/
+
+SELECT MAX(LINETOTAL) AS 'MAXIMO'
+FROM Sales.SalesOrderDetail;
+
+SELECT MIN(LINETOTAL) AS 'MINIMO'
+FROM Sales.SalesOrderDetail;
+
+/*
+AVG
+*/
+
+SELECT AVG(LINETOTAL) AS 'MÉDIA'
+FROM Sales.SalesOrderDetail;
+
+/*
+GROUP BY
+*/
+
+SELECT SpecialOfferID, SUM(UnitPrice) AS 'SOMA'
+FROM Sales.SalesOrderDetail
+GROUP BY SpecialOfferID;
+
+SELECT  PRODUCTID, COUNT(PRODUCTID)
+FROM Sales.SalesOrderDetail
+GROUP BY ProductID;
+
+SELECT FIRSTNAME, COUNT(FIRSTNAME) AS 'QUANTIDADE'
+FROM Person.Person
+GROUP BY FIRSTNAME
+ORDER BY QUANTIDADE DESC;
+
+SELECT Color,AVG(ListPrice)
+FROM Production.Product
+WHERE Color = 'silver'
+GROUP BY Color;
+
+/*
+DESAFIOS GROUP BY
+*/
+
+SELECT MiddleName, COUNT(MiddleName) as 'QUANTIDADE'
+FROM Person.Person
+GROUP BY MiddleName;
+
+SELECT ProductID,AVG(OrderQty) AS 'MÉDIA'
+FROM Sales.SalesOrderDetail
+GROUP BY (ProductID);
+
+SELECT TOP 10 ProductID, SUM(LineTotal)
+FROM Sales.SalesOrderDetail
+GROUP BY ProductID
+ORDER BY SUM(LINETOTAL) DESC;
+
+SELECT ProductID, COUNT(ProductID) AS 'CONTAGEM',AVG(OrderQty) AS 'MÉDIA'
+FROM Production.WorkOrder
+GROUP BY ProductID
+ORDER BY MÉDIA DESC
+
+/*
+HAVING
+*/
+
+SELECT FirstName, COUNT(FIRSTNAME) AS 'QUANTIDADE'
+FROM Person.Person
+GROUP BY FirstName
+HAVING COUNT(FIRSTNAME) > 10
+ORDER BY FirstName ASC;
+
+SELECT TOP 10 ProductID, SUM(LineTotal) AS 'TOTAL'
+FROM Sales.SalesOrderDetail
+GROUP BY ProductID
+HAVING SUM(LINETOTAL) BETWEEN 162000 AND 500000;
