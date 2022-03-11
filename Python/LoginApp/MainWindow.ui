@@ -62,7 +62,7 @@
    <widget class="QPushButton" name="pushButton_inserir">
     <property name="geometry">
      <rect>
-      <x>900</x>
+      <x>870</x>
       <y>20</y>
       <width>171</width>
       <height>61</height>
@@ -86,7 +86,7 @@
    <widget class="QPushButton" name="pushButton_remover">
     <property name="geometry">
      <rect>
-      <x>900</x>
+      <x>870</x>
       <y>110</y>
       <width>171</width>
       <height>61</height>
@@ -110,7 +110,7 @@
    <widget class="QPushButton" name="pushButton_relatorio">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>40</x>
       <y>110</y>
       <width>241</width>
       <height>61</height>
@@ -386,6 +386,30 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_modificar">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>110</y>
+      <width>171</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:white; border: 2px solid green; border-radius: 9px;</string>
+    </property>
+    <property name="text">
+     <string>MODIFICAR PESSOA</string>
     </property>
    </widget>
   </widget>
