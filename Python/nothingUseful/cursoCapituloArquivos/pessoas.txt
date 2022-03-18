@@ -1,0 +1,4 @@
+Nome: maria // Idade: 30
+Nome: pedro // Idade: 21
+Nome: joao // Idade: 90
+Nome: eduardo // Idade: 23
