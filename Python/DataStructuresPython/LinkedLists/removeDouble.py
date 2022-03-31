@@ -1,4 +1,3 @@
-
 class Node:
     def __init__(self, data=0, next=None):
         self.data = data
@@ -54,29 +53,31 @@ class LinkedList:
                 last.next = actual.next
             else:
                 last.next = None
+    
+    def removeRepeated(self, nonRepeatedList):
+        assert self.head, "Impossível checar lista vazia."
 
+        actual = self.head
+
+        while actual and actual.data != None:
+            nextOne = actual.next
+            if actual.data in nonRepeatedList:
+                self.remove(actual.data)
+            else:
+                nonRepeatedList.append(actual.data)
+            actual = nextOne
 
 if __name__ == '__main__':
+    entryList = [8,90,12,312,2,14,8,17,21,90,2,2,2,2,31,12]
+    nonRepeatedList = []
+
     lista = LinkedList()
 
-    # TESTING INSERT
-
-    for i in range(10):
+    for i in entryList:
         lista.insertAsFirst(i)
+
+    lista.removeRepeated(nonRepeatedList)
     lista.listPrint()
+    
+    
 
-    # TESTING REMOVE
-
-    # lista.listPrint()
-    # print('_________________________________')
-    # lista.remove(9)
-    # lista.listPrint()
-
-    # TESTING SEARCH
-
-    # for i in range(22, -4, -2):
-    #    elemento = lista.search(i)
-    #    if elemento:
-    #        print("Elemento {0} presente na lista!".format(i))
-    #    else:
-    #        print("Elemento {0} não encontrado.".format(i))
